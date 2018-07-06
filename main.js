@@ -12,32 +12,19 @@
 	}];
 
 // ============ FUNCTIONS ============
-	// Creating a basic card
-	// var firstCard = new BasicCard("Who is the first President of the US?", "George Washington");
-	// console.log("Basic Card Example");
-	// console.log("Front: " + firstCard.front);
-	// console.log("Back: " + firstCard.back);
 
-	// console.log("----------------");
-
-	// var secondCard = new ClozeCard("George Washington is the first president of the US", "George Washington");
-	// secondCard.createPartial();
-	// console.log("Cloze Card Example");
-	// console.log("Cloze: " + secondCard.cloze);
-	// console.log("Full Text: " + secondCard.fullText);
-	// console.log("Partial Text: " + secondCard.partial);
-
+	// Prompts user to enter basic card details
 	function basicCardPrompt() {
 
 		// Holds the prompt questions for a basic card
 		var basicQs = [{
 			name: "frontInput",
 			type: "input",
-			message: "Front of the card text:"
+			message: "Enter front of the card text:"
 		}, {
 			name: "backInput",
 			type: "input",
-			message: "Back of the card text:"
+			message: "Enter back of the card text:"
 		}];
 
 		// Ask user to enter front and back of card and then...
@@ -62,6 +49,46 @@
 		console.log("Back: " + card.back);
 	}
 
+	// Prompts user to enter cloze card details
+	function clozeCardPrompt() {
+
+		// Holds prompt questions for a cloze card
+		var clozeQs = [{
+			name: "textInput",
+			type: "input",
+			message: "Enter full text:"
+		}, {
+			name: "clozeInput",
+			type: "input",
+			message: "Enter cloze:"
+		}];
+
+		// Prompts user to enter cloze card information and then...
+		inquirer.prompt(clozeQs).then(function(answers) {
+
+			// Create a ClozeCard object
+			var clozeCard = new ClozeCard(
+				answers.textInput,
+				answers.clozeInput
+			);
+
+			// Create partial text
+			clozeCard.createPartial()
+
+			// Display cloze card information
+			displayClozeCard(clozeCard);
+		});
+	}
+
+	// Displays cloze card information
+	function displayClozeCard(card) {
+		console.log("CLOZE CARD");
+		console.log("Full Text: " + card.fullText);
+		console.log("Cloze: " + card.cloze);
+		console.log("Partial Text: " + card.partial);		
+
+	}
+
 // ============ MAIN PROCESSES ============
 	
 	// Ask user the type of card they would want to create
@@ -69,4 +96,7 @@
 		if (answer.cardType === "Basic Card") {
 			basicCardPrompt();
 		} 
+		else {
+			clozeCardPrompt();
+		}
 	});
